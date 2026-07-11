@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventario-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventario
+  template:
+    metadata:
+      labels:
+        app: inventario
+    spec:
+      containers:
+      - name: inventario
+        image: inventario-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventario-service
+spec:
+  selector:
+    app: inventario
+  ports:
+    - protocol: TCP
+      port: 5002
+      targetPort: 5002

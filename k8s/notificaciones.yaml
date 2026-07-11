@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificaciones-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notificaciones
+  template:
+    metadata:
+      labels:
+        app: notificaciones
+    spec:
+      containers:
+      - name: notificaciones
+        image: notificaciones-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5004
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificaciones-service
+spec:
+  selector:
+    app: notificaciones
+  ports:
+    - protocol: TCP
+      port: 5004
+      targetPort: 5004

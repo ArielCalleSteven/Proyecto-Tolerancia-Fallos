@@ -1,0 +1,47 @@
+# 1. EL DESPLIEGUE (Deployment)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservas-deployment
+spec:
+  replicas: 2 # Exigimos 2 copias del servicio
+  selector:
+    matchLabels:
+      app: reservas
+  template:
+    metadata:
+      labels:
+        app: reservas
+    spec:
+      # --- REGLA DE ORO DE LA RÚBRICA (Anti-Afinidad) ---
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - reservas
+            topologyKey: "kubernetes.io/hostname"
+      # ---------------------------------------------------
+      containers:
+      - name: reservas
+        image: reservas-app:latest
+        imagePullPolicy: Never # Le decimos que use la imagen que inyectaste, no que la baje de internet
+        ports:
+        - containerPort: 5001
+
+---
+# 2. EL SERVICIO DE RED (Service)
+apiVersion: v1
+kind: Service
+metadata:
+  name: reservas-service # Este es el nombre que usamos en la URL de Python
+spec:
+  selector:
+    app: reservas
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
