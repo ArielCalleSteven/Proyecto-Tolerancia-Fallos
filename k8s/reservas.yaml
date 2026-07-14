@@ -13,7 +13,6 @@ spec:
       labels:
         app: reservas
     spec:
-      # --- REGLA DE ORO DE LA RÚBRICA (Anti-Afinidad) ---
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

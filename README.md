@@ -13,6 +13,7 @@ El clúster está configurado con 2 nodos virtuales para asegurar la resiliencia
 *   **API Gateway (Nginx):** Expuesto vía `NodePort` en el puerto 80. Implementa limitación de tasa estricta (1 req/sec) retornando HTTP 429 bajo ataques masivos.
 *   **Servicio de Reservas:** 2 Réplicas aisladas por Anti-Afinidad en distintos nodos.
 *   **Microservicios de Soporte:** Inventario, Pagos, Notificaciones (Red aislada interna tipo `ClusterIP`).
+*   **Base de Datos (Redis):** Persistencia compartida y gestión de estado (Desplegada con imagen pública `redis:alpine`).
 *   **Infraestructura:** Definida totalmente en los manifiestos YAML ubicados en la carpeta `/k8s`.
 
 ---
