@@ -56,10 +56,11 @@ def comprar_entrada():
     except Exception as exc:
         return jsonify({"status": "error", "mensaje": "Fallo crítico en Pagos", "detalle": str(exc)}), 500
 
-    # --- PASO 3: ENVIAR NOTIFICACIÓN (DEFENSA CONTRA FALLO C - "El Correo Perdido") ---
+# --- PASO 3: ENVIAR NOTIFICACIÓN (DEFENSA CONTRA FALLO C - "El Correo Perdido") ---
     estado_correo = "Enviado"
     try:
-        requests.post(URL_NOTIFICACIONES, timeout=1.0)
+        resp_notif = requests.post(URL_NOTIFICACIONES, timeout=1.0)
+        resp_notif.raise_for_status() 
     except Exception as exc:
         estado_correo = "Pendiente (Servicio caído. Se enviará más tarde)"
         print(f"[LOG DE AUDITORÍA] Fallo en notificaciones: {exc}")
