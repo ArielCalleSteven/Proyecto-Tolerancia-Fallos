@@ -6,8 +6,7 @@ Este repositorio contiene la implementación de un sistema distribuido de reserv
 
 El clúster está configurado con 2 nodos virtuales para asegurar la resiliencia a nivel de hardware. El orquestador implementa reglas de Anti-Afinidad (PodAntiAffinity) para obligar a que las réplicas del servicio *Core* (Reservas) operen en hardware físicamente separado.
 
-![Diagrama de Arquitectura Kubernetes](./docs/arquitectura.png)
-*(Nota: Insertar imagen del diagrama exportado en la carpeta /docs).*
+![Diagrama de Arquitectura Kubernetes](./diagrama.png)
 
 ### Distribución de Componentes:
 *   **API Gateway (Nginx):** Expuesto vía `NodePort` en el puerto 80. Implementa limitación de tasa estricta (1 req/sec) retornando HTTP 429 bajo ataques masivos.
